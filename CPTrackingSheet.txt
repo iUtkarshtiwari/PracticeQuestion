@@ -32,3 +32,110 @@ Question & Topics done :
 18/1/2025
 8:00AM --> 10:00AM : 
 6:00PM --> 8:00PM  :  
+
+
+
+
+
+import React, { useState } from "react";
+
+const HeartAttackRiskPredictor = () => {
+  const [isDiabetic, setIsDiabetic] = useState(false);
+  const [hasPriorIssue, setHasPriorIssue] = useState(false);
+  const [age, setAge] = useState("");
+  const [bmi, setBmi] = useState("");
+  const [riskLevel, setRiskLevel] = useState(null);
+
+  const calculateRisk = () => {
+    let risk = 1; // Start with the lowest risk level.
+
+    if (isDiabetic) risk += 1;
+    if (hasPriorIssue) risk += 1;
+    if (age > 45) risk += 1;
+    if (bmi > 30) risk += 1;
+
+    // Cap the risk level at 4.
+    if (risk > 4) risk = 4;
+
+    setRiskLevel(risk);
+  };
+
+  return (
+    <div style={{ fontFamily: "Arial, sans-serif", padding: "20px" }}>
+      <h1>Heart Attack Risk Predictor</h1>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          calculateRisk();
+        }}
+      >
+        <div>
+          <label>
+            Are you diabetic?
+            <input
+              type="checkbox"
+              checked={isDiabetic}
+              onChange={(e) => setIsDiabetic(e.target.checked)}
+            />
+          </label>
+        </div>
+
+        <div>
+          <label>
+            Do you have any prior heart-related issues?
+            <input
+              type="checkbox"
+              checked={hasPriorIssue}
+              onChange={(e) => setHasPriorIssue(e.target.checked)}
+            />
+          </label>
+        </div>
+
+        <div>
+          <label>
+            Age:{" "}
+            <input
+              type="number"
+              value={age}
+              onChange={(e) => setAge(e.target.value)}
+              placeholder="Enter your age"
+            />
+          </label>
+        </div>
+
+        <div>
+          <label>
+            BMI (Body Mass Index):{" "}
+            <input
+              type="number"
+              value={bmi}
+              onChange={(e) => setBmi(e.target.value)}
+              placeholder="Enter your BMI"
+            />
+          </label>
+        </div>
+
+        <button type="submit" style={{ marginTop: "10px" }}>
+          Calculate Risk
+        </button>
+      </form>
+
+      {riskLevel !== null && (
+        <div style={{ marginTop: "20px" }}>
+          <h2>Risk Level: {riskLevel}/4</h2>
+          <p>
+            {riskLevel === 1
+              ? "Low risk of heart attack."
+              : riskLevel === 2
+              ? "Moderate risk. Consider monitoring your health."
+              : riskLevel === 3
+              ? "High risk. Consult a doctor."
+              : "Very high risk. Immediate medical attention is advised."}
+          </p>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default HeartAttackRiskPredictor;
