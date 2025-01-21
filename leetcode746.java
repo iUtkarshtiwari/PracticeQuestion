@@ -6,7 +6,7 @@ public class leetcode746 {
         if(dp[idx]!=-1) return dp[idx];
         return dp[idx]=cost[idx]+Math.min(minCost(cost, idx-1, dp),minCost(cost, idx-2, dp));
     }
-
+    
     public static int minCostClimbingStairs(int[] cost) {
         int n=cost.length;
         int[] dp=new int[n];
